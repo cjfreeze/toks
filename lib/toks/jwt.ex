@@ -1,5 +1,6 @@
 defmodule Toks.JWT do
   use Joken.Config
+
   @nonce_size 16
 
   def token_config do
@@ -12,7 +13,11 @@ defmodule Toks.JWT do
   end
 
   defp key do
-    Application.fetch_env!(:toks, :key) |> IO.inspect()
+    Application.fetch_env!(:toks, :key)
+  end
+
+  defp secret do
+    Application.fetch_env!(:toks, :secret)
   end
 
   defp nonce do
@@ -28,6 +33,6 @@ defmodule Toks.JWT do
   end
 
   defp signer do
-    Joken.Signer.create("HS256", Application.fetch_env!(:toks, :secret) |> IO.inspect())
+    Joken.Signer.create("HS256", secret())
   end
 end

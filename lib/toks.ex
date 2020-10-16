@@ -1,6 +1,11 @@
 defmodule Toks do
   use Tesla
 
+  alias Toks.Schemas.{
+    Session,
+    Identity
+  }
+
   plug(Tesla.Middleware.BaseUrl, "https://api.opentok.com/")
   plug(Toks.AuthHeader)
   plug(Tesla.Middleware.Headers, [{"Accept", "application/json"}])
@@ -8,6 +13,14 @@ defmodule Toks do
   plug(Tesla.Middleware.DecodeJson)
 
   def create_session do
-    post("/session/create", %{})
+    "/session/create"
+    |> post(%{})
+    |> handle_response(Session)
+  end
+
+  defp handle_response(resp, schema \\ Identity) do
+    with {:ok, %{body: body}} <- resp do
+      schema.cast(body)
+    end
   end
 end

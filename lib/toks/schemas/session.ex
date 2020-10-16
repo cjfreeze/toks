@@ -1,5 +1,5 @@
 defmodule Toks.Schemas.Session do
-  defstruct [
+  @struct_fields [
     :create_dt,
     :ice_credential_expiration,
     :ice_server,
@@ -16,24 +16,8 @@ defmodule Toks.Schemas.Session do
     :status_invalid,
     :symphony_address
   ]
-
-  @fields [
-    "create_dt",
-    "ice_credential_expiration",
-    "ice_server",
-    "ice_servers",
-    "media_server_hostname",
-    "messaging_server_url",
-    "messaging_url",
-    "partner_id",
-    "project_id",
-    "properties",
-    "session_id",
-    "session_segment_id",
-    "session_status",
-    "status_invalid",
-    "symphony_address"
-  ]
+  @fields Enum.map(@struct_fields, &to_string/1)
+  defstruct @struct_fields
 
   def cast([map]) when is_map(map), do: cast(map)
 

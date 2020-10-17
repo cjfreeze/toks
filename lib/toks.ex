@@ -20,7 +20,7 @@ defmodule Toks do
 
   defp handle_response(resp, schema \\ Identity) do
     with {:ok, %{body: body}} <- resp do
-      schema.cast(body)
+      {:ok, schema.cast(body)}
     end
   end
 end
